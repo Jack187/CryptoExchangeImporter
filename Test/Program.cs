@@ -15,6 +15,8 @@ namespace Test
             Console.WriteLine(test.Result.Operative);
             Console.ReadLine();
 
+            
+            
             // Test für die Exception
             //Test PlatformStatusAsync
         }

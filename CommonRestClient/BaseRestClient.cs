@@ -22,27 +22,8 @@ namespace CommonRestClient
             _client = new RestClient(baseUrl);
             _cancellationToken = new CancellationTokenSource().Token;
         }
-        
-        //protected IRestResponse GetResponse(IRestRequest request)//, CancellationToken token)
-        //{
-        //    try
-        //    {
-        //        var response = _client.Execute(request);
 
-        //        if (!string.IsNullOrEmpty(response.ErrorMessage))
-        //            throw new Exception(response.ErrorMessage);
-
-        //        return response;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //        throw;
-        //    }
-        //    return null;
-        //}
-
-        protected virtual async Task<IRestResponse> GetResponseAsync(IRestRequest request)//, CancellationToken token)
+        protected virtual async Task<IRestResponse> GetResponseAsync(IRestRequest request)
         {
             var response = await _client.ExecuteGetTaskAsync(request, _cancellationToken);
 

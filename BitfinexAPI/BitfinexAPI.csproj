@@ -52,7 +52,6 @@
     <Compile Include="JsonConverters\BitfinexExceptionConverter.cs" />
     <Compile Include="JsonConverters\PlatformStatusConverter.cs" />
     <Compile Include="Resources\PlatformStatus.cs" />
-    <Compile Include="Tickers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
