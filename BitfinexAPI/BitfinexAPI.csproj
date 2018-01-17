@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="BitfinexException.cs" />
     <Compile Include="BitfinexRestClient.cs" />
+    <Compile Include="JsonConverters\AlertsConverter.cs" />
     <Compile Include="JsonConverters\BitfinexExceptionConverter.cs" />
     <Compile Include="JsonConverters\PlatformStatusConverter.cs" />
+    <Compile Include="Resources\Alerts.cs" />
     <Compile Include="Resources\PlatformStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

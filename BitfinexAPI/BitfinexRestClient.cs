@@ -1,5 +1,11 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BitfinexAPI.JsonConverters;
@@ -11,14 +17,14 @@ namespace BitfinexAPI
 {
     public class BitfinexRestClient : BaseRestClient
     {
-        private const string BaseUrl = "https://api.bitfinex.com/v2";
+        private const string BaseUrl = "https://api.bitfinex.com/";
 
         public BitfinexRestClient(string apiKey, string secretKey) : 
             base(apiKey, secretKey, BaseUrl)
         {
         }
         
-        public static T DeserializeObject<T>(string json, JsonConverter converter)
+        internal static T DeserializeObject<T>(string json, JsonConverter converter)
         {
             try
             {
@@ -30,7 +36,7 @@ namespace BitfinexAPI
             }
         }
 
-        protected override async Task<IRestResponse> GetResponseAsync(IRestRequest request)//, CancellationToken token)
+        protected override async Task<IRestResponse> GetResponseAsync(IRestRequest request)
         {
             var response = await base.GetResponseAsync(request);
 
@@ -55,43 +61,41 @@ namespace BitfinexAPI
         
         public async Task<PlatformStatus> GetPlatformStatusAsync()
         {
-            var request = new RestRequest("platform/status");
+            var request = new RestRequest("v2/platform/status");
 
             var response = await GetResponseAsync(request);
 
             return DeserializeObject<PlatformStatus>(response.Content, new PlatformStatusConverter());
         }
-    }
 
+        public async Task<List<Alert>> GetAlertsAsync()
+        {
+            var apiPath = "v2/auth/r/alerts";
 
-    /*
-     string key = "APIKEY";
-string secret = "APISECRET";
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan diff = DateTime.Now.ToUniversalTime() - origin;
+            long nonce = (long)Math.Floor(diff.TotalMilliseconds);
 
-string apiPath = "v2/auth/r/alerts";
-            
+            var rawBody = JsonConvert.SerializeObject(new
+            {
+                type = "price"
+            });
 
-DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-TimeSpan diff = DateTime.Now.ToUniversalTime() - origin;
-long nonce = (long)Math.Floor(diff.TotalMilliseconds);
+            string signature = $"/api/{apiPath}{nonce}{rawBody}";
+            var hmac = new HMACSHA384(Encoding.UTF8.GetBytes(SecretKey));
+            byte[] k = hmac.ComputeHash(Encoding.UTF8.GetBytes(signature));
+            string signatureString = string.Concat(k.Select(b => b.ToString("X2")).ToArray()).ToLower();
 
-var rawBody = JsonConvert.SerializeObject(new
-{
-    type = "price"
-});
+            var request = new RestRequest(apiPath) { Method = Method.POST };
+            request.AddHeader("bfx-nonce", nonce.ToString());
+            request.AddHeader("bfx-apikey", ApiKey);
+            request.AddHeader("bfx-signature", signatureString);
+            request.AddHeader("Accept", "application/json");
+            request.AddParameter("application/json; charset=utf-8", rawBody, ParameterType.RequestBody);
 
-string signature = $"/api/{apiPath}{nonce}{rawBody}";
+            var response = await GetResponseAsync(request);
 
-var hmac = new HMACSHA384(Encoding.UTF8.GetBytes(secret));
-byte[] k = hmac.ComputeHash(Encoding.UTF8.GetBytes(signature));
-string signatureString = string.Concat(k.Select(b => b.ToString("X2")).ToArray()).ToLower();
-
-HttpClient client = new HttpClient();
-client.DefaultRequestHeaders.TryAddWithoutValidation("bfx-nonce", nonce.ToString());
-client.DefaultRequestHeaders.TryAddWithoutValidation("bfx-apikey", key);
-client.DefaultRequestHeaders.TryAddWithoutValidation("bfx-signature", signatureString);
-
-var response = await client.PostAsync($"https://api.bitfinex.com/{apiPath}", new StringContent(rawBody, Encoding.UTF8, "application/json"));
-var responseString = await response.Content.ReadAsStringAsync();
-     */
+            return DeserializeObject<List<Alert>>(response.Content, new AlertsConverter());
+        }
+    }   
 }

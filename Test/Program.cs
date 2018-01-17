@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using BitfinexAPI;
 
@@ -8,15 +9,35 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            BitfinexRestClient t = new BitfinexRestClient(string.Empty, String.Empty);
-            var test = t.GetPlatformStatusAsync();
+            try
+            {
+                var apiKey = ConfigurationManager.AppSettings["BfApiKey"];
+                var apiSecret = ConfigurationManager.AppSettings["BfApiSecret"];
 
-            string ttt = "";
-            Console.WriteLine(test.Result.Operative);
-            Console.ReadLine();
+                if (string.IsNullOrEmpty(apiKey))
+                    throw new Exception($"Missing BfApiKey in App.config");
 
-            
-            
+                if (string.IsNullOrEmpty(apiSecret))
+                    throw new Exception("Missing BfApiSecret in App.config");
+                            
+                BitfinexRestClient bfRestClient = new BitfinexRestClient(apiKey, apiSecret);
+
+                var platformStatus = bfRestClient.GetPlatformStatusAsync().Result;
+                var alerts = bfRestClient.GetAlertsAsync().Result;
+                
+                Console.WriteLine($"API State (1=up / 0=down): {platformStatus.Operative}");
+
+                Console.WriteLine("Alerts:");
+                alerts.ForEach(alert => Console.WriteLine(alert.ToString()));
+
+                Console.ReadLine();
+
+            }
+            catch (Exception ex)
+            {
+                //TODO: add logging
+            }
+
             // Test für die Exception
             //Test PlatformStatusAsync
         }

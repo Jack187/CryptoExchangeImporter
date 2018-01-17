@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using RestSharp;
 
 namespace CommonRestClient
 {
     public abstract class BaseRestClient
     {
-        private readonly string _apiKey;
-        private readonly string _secretKey;
+        protected readonly string ApiKey;
+        protected readonly string SecretKey;
 
-        private readonly RestClient _client;
+        public readonly RestClient _client;
         private readonly CancellationToken _cancellationToken;
 
         protected BaseRestClient(string apiKey, string secretKey, string baseUrl)
         {
-            _apiKey = apiKey;
-            _secretKey = secretKey;
+            ApiKey = apiKey;
+            SecretKey = secretKey;
 
             _client = new RestClient(baseUrl);
             _cancellationToken = new CancellationTokenSource().Token;
@@ -25,7 +24,17 @@ namespace CommonRestClient
 
         protected virtual async Task<IRestResponse> GetResponseAsync(IRestRequest request)
         {
-            var response = await _client.ExecuteGetTaskAsync(request, _cancellationToken);
+            IRestResponse response = null;
+
+            switch (request.Method)
+            {
+                case Method.GET:
+                    response = await _client.ExecuteGetTaskAsync(request, _cancellationToken);
+                    break;
+                case Method.POST:
+                    response = await _client.ExecutePostTaskAsync(request, _cancellationToken);
+                    break;
+            }
 
             if (!string.IsNullOrEmpty(response.ErrorMessage))
                 throw new Exception(response.ErrorMessage);

@@ -15,7 +15,8 @@ namespace BitfinexAPI.JsonConverters
         {
             var array = JArray.Load(reader);
 
-            if ((string)array[0] == "error")
+            JToken error = array[0];
+            if (error.Type == JTokenType.String && (string)array[0] == "error")
             {
                 return new BitfinexException((int) array[1], (string) array[2]);
             }
