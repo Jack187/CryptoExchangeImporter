@@ -1,4 +1,4 @@
-﻿namespace BitfinexAPI.Resources
+﻿namespace BfAPI.Resources
 {
     public class Alerts
     {

@@ -1,19 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using BitfinexAPI.JsonConverters;
-using BitfinexAPI.Resources;
-using CommonRestClient;
+using BfAPI.JsonConverters;
+using BfAPI.Resources;
 using RestSharp;
+using BaseApiClient;
 
-namespace BitfinexAPI
+namespace BfAPI
 {
     public class BitfinexRestClient : BaseRestClient
     {

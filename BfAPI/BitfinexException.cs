@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BitfinexAPI
+namespace BfAPI
 {
     // TODO: see if a common CryptoExchangeException is suitable
     public class BitfinexException : Exception

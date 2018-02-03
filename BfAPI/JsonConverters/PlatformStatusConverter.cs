@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using BitfinexAPI.Resources;
+using BfAPI.Resources;
 
-namespace BitfinexAPI.JsonConverters
+namespace BfAPI.JsonConverters
 {
     public class PlatformStatusConverter : JsonConverter
     {

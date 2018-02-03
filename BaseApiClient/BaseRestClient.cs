@@ -1,9 +1,9 @@
-﻿using System;
+﻿using RestSharp;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RestSharp;
 
-namespace CommonRestClient
+namespace BaseApiClient
 {
     public abstract class BaseRestClient
     {

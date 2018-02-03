@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BitfinexAPI.Resources;
+using BfAPI.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace BitfinexAPI.JsonConverters
+namespace BfAPI.JsonConverters
 {
     public class AlertsConverter : JsonConverter
     {
