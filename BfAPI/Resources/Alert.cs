@@ -1,10 +1,5 @@
 ﻿namespace BfAPI.Resources
 {
-    public class Alerts
-    {
-        public int Operative { get; set; }
-    }
-
     public class Alert
     {
         public string Id { get; set; }
