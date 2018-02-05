@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace BfAPI.JsonConverters
+namespace BitfinexApi.JsonConverters
 {
     internal class BitfinexExceptionConverter : JsonConverter
     {

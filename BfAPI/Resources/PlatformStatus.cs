@@ -1,4 +1,4 @@
-﻿namespace BfAPI.Resources
+﻿namespace BitfinexApi.Resources
 {
     public class PlatformStatus
     {

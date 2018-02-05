@@ -1,10 +1,10 @@
-﻿using BfAPI.Resources;
+﻿using BitfinexApi.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace BfAPI.JsonConverters
+namespace BitfinexApi.JsonConverters
 {
     public class WalletsConverter : JsonConverter
     {
@@ -23,7 +23,7 @@ namespace BfAPI.JsonConverters
 
             foreach (var item in array)
             {
-                var wallet = BitfinexRestClient.DeserializeObject<Wallet>(item.ToString(), new WalletConverter());
+                var wallet = BitfinexApiClient.DeserializeObject<Wallet>(item.ToString(), new WalletConverter());
                 results.Add(wallet);
             }
 

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using BfAPI.Resources;
+using BitfinexApi.Resources;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace BfAPI.JsonConverters
+namespace BitfinexApi.JsonConverters
 {
     public class AlertsConverter : JsonConverter
     {
@@ -23,7 +23,7 @@ namespace BfAPI.JsonConverters
 
             foreach (var item in array)
             {
-                var alert = BitfinexRestClient.DeserializeObject<Alert>(item.ToString(), new AlertConverter());
+                var alert = BitfinexApiClient.DeserializeObject<Alert>(item.ToString(), new AlertConverter());
                 results.Add(alert);
             }
 
