@@ -16,7 +16,7 @@ namespace BitfinexApi.JsonConverters
         {
             var array = JArray.Load(reader);
 
-            if (array.Count == 0)
+            if (array.Count == 0 || array[0].Type != JTokenType.Integer)
                 return null;
 
             return new PlatformStatus() { Operative = Convert.ToInt32(array[0]) };
