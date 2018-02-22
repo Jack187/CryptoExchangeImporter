@@ -23,7 +23,7 @@ namespace BitfinexApi.JsonConverters
 
             foreach (var item in array)
             {
-                var wallet = BitfinexApiClient.DeserializeObject<Wallet>(item.ToString(), new WalletConverter());
+                var wallet = JsonConvert.DeserializeObject<Wallet>(item.ToString(), new WalletConverter());
                 results.Add(wallet);
             }
 

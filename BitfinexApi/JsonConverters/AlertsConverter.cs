@@ -23,7 +23,7 @@ namespace BitfinexApi.JsonConverters
 
             foreach (var item in array)
             {
-                var alert = BitfinexApiClient.DeserializeObject<Alert>(item.ToString(), new AlertConverter());
+                var alert = JsonConvert.DeserializeObject<Alert>(item.ToString(), new AlertConverter());
                 results.Add(alert);
             }
 

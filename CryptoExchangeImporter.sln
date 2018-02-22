@@ -5,11 +5,9 @@ VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{62BA84FB-A3A6-43C9-A801-B664C3D40A94}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseApiClient", "BaseApiClient\BaseApiClient.csproj", "{32CECC9E-FAEF-420B-B217-76DD4E03C141}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitfinexApi", "BitfinexApi\BitfinexApi.csproj", "{0D367544-B8E0-42F2-8A57-3F4DC9F805B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitfinexApi.Test", "BitfinexApi.Test\BitfinexApi.Test.csproj", "{2FB97C98-7470-4BFB-9C9B-AB4D30D93048}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BitfinexApi.Test", "BitfinexApi.Test\BitfinexApi.Test.csproj", "{2FB97C98-7470-4BFB-9C9B-AB4D30D93048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +19,6 @@ Global
 		{62BA84FB-A3A6-43C9-A801-B664C3D40A94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62BA84FB-A3A6-43C9-A801-B664C3D40A94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62BA84FB-A3A6-43C9-A801-B664C3D40A94}.Release|Any CPU.Build.0 = Release|Any CPU
-		{32CECC9E-FAEF-420B-B217-76DD4E03C141}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{32CECC9E-FAEF-420B-B217-76DD4E03C141}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{32CECC9E-FAEF-420B-B217-76DD4E03C141}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{32CECC9E-FAEF-420B-B217-76DD4E03C141}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D367544-B8E0-42F2-8A57-3F4DC9F805B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D367544-B8E0-42F2-8A57-3F4DC9F805B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D367544-B8E0-42F2-8A57-3F4DC9F805B9}.Release|Any CPU.ActiveCfg = Release|Any CPU

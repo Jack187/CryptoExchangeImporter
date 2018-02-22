@@ -1,6 +1,7 @@
 ﻿using BitfinexApi;
 using System;
 using System.Configuration;
+using System.Net.Http;
 
 namespace Test
 {
@@ -19,7 +20,7 @@ namespace Test
                 if (string.IsNullOrEmpty(apiSecret))
                     throw new Exception("Missing BfApiSecret in App.config");
 
-                BitfinexApiClient bfRestClient = new BitfinexApiClient(apiKey, apiSecret);
+                BitfinexApiClient bfRestClient = new BitfinexApiClient(apiKey, apiSecret, new HttpClient());
 
                 var platformStatus = bfRestClient.GetPlatformStatusAsync().Result;
                 Console.WriteLine($"API State (1=up / 0=down): {platformStatus.Operative}");
