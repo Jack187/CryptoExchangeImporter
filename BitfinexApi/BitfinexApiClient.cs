@@ -24,12 +24,11 @@ namespace BitfinexApi
         {
             ApiKey = apiKey;
             SecretKey = secretKey;
-
+                        
             _httpClient = httpClient;
 
             _httpClient.BaseAddress = new Uri(BaseUrl);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
         }
 
         public async Task<PlatformStatus> GetPlatformStatusAsync()

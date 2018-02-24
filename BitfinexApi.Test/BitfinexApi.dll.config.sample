@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--rename file to "BitfinexApi.dll.config-->
+<configuration>
+  <appSettings>
+    <add key="BfApiKey" value="yourApiKey"/>
+    <add key="BfApiSecret" value="yourSecretKey"/>
+  </appSettings>
+</configuration>

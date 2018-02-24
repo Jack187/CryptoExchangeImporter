@@ -8,39 +8,22 @@ namespace Test
     class Program
     {
         static void Main(string[] args)
-        {
-            try
-            {
-                var apiKey = ConfigurationManager.AppSettings["BfApiKey"];
-                var apiSecret = ConfigurationManager.AppSettings["BfApiSecret"];
+        {            
+            BitfinexApiClient bfRestClient = new BitfinexApiClient("","", new HttpClient());
 
-                if (string.IsNullOrEmpty(apiKey))
-                    throw new Exception($"Missing BfApiKey in App.config");
+            var platformStatus = bfRestClient.GetPlatformStatusAsync().Result;
+            Console.WriteLine($"API State (1=up / 0=down): {platformStatus.Operative}");
 
-                if (string.IsNullOrEmpty(apiSecret))
-                    throw new Exception("Missing BfApiSecret in App.config");
+            var alerts = bfRestClient.GetAlertsAsync().Result;
+            Console.WriteLine("Alerts:");
+            alerts.ForEach(alert => Console.WriteLine(alert.ToString()));
 
-                BitfinexApiClient bfRestClient = new BitfinexApiClient(apiKey, apiSecret, new HttpClient());
+            var wallets = bfRestClient.GetWalletsAsync().Result;
+            Console.WriteLine("Wallets:");
+            wallets.ForEach(wallet => Console.WriteLine(wallet.ToString()));
 
-                var platformStatus = bfRestClient.GetPlatformStatusAsync().Result;
-                Console.WriteLine($"API State (1=up / 0=down): {platformStatus.Operative}");
-
-                var alerts = bfRestClient.GetAlertsAsync().Result;
-                Console.WriteLine("Alerts:");
-                alerts.ForEach(alert => Console.WriteLine(alert.ToString()));
-
-                var wallets = bfRestClient.GetWalletsAsync().Result;
-                Console.WriteLine("Wallets:");
-                wallets.ForEach(wallet => Console.WriteLine(wallet.ToString()));
-
-                Console.ReadLine();
-
-            }
-            catch (Exception ex)
-            {
-                //TODO: add logging
-            }
-
+            Console.ReadLine();
+            
             // Test für die Exception
             //Test PlatformStatusAsync
         }
