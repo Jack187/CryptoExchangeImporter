@@ -15,6 +15,9 @@ namespace BitfinexApi.JsonConverters
         {
             var array = JArray.Load(reader);
 
+            if (array.Count == 0)
+                return null;
+
             JToken error = array[0];
             if (error.Type == JTokenType.String && (string)array[0] == "error")
             {

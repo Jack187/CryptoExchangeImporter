@@ -18,8 +18,6 @@ namespace BitfinexApi.JsonConverters
             var array = JArray.Load(reader);
 
             var results = new List<Wallet>();
-            if (array.Count == 0)
-                return null;
 
             foreach (var item in array)
             {
@@ -46,21 +44,14 @@ namespace BitfinexApi.JsonConverters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var array = JArray.Load(reader);
-
-            if (array.Count == 0)
-                return null;
-
-            var t = array[4];
-
-            double? balanceAvailable = Convert.ToDouble(array[4].ToObject<object>());// != null ? Convert.ToDouble(array[4]) : -1.0;
-
+                        
             return new Wallet()
             {
-                WalletType = array[0].ToString(),
-                Currency = array[1].ToString(),
-                Balance = Convert.ToDouble(array[2]),
-                UnsettledInterest = Convert.ToDouble(array[3]),
-                BalanceAvailable = balanceAvailable
+                WalletType = array[0].ToObject<string>(),
+                Currency = array[1].ToObject<string>(),
+                Balance = array[2].ToObject<double>(),
+                UnsettledInterest = array[3].ToObject<double>(),
+                BalanceAvailable = array[4].ToObject<double?>()
             };
         }
 

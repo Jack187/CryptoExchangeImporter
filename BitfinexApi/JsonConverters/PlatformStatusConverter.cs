@@ -19,7 +19,7 @@ namespace BitfinexApi.JsonConverters
             if (array.Count == 0 || array[0].Type != JTokenType.Integer)
                 return null;
 
-            return new PlatformStatus() { Operative = Convert.ToInt32(array[0]) };
+            return new PlatformStatus() { Operative = array[0].ToObject<int>() };
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
