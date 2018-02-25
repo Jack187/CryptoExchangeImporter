@@ -1,13 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Net.Http;
+using System.Text;
 
 namespace BitfinexApi.Test
 {
     [TestClass]
-    public class Test
+    public class WalletsTests
     {
         private static string ApiKey;
         private static string SecretKey;
@@ -25,32 +27,25 @@ namespace BitfinexApi.Test
             // log if values are isNullOrStringEmpty - just public endpoints
 
             if (string.IsNullOrEmpty(ApiKey))
-                throw new Exception($"Missing BfApiKey");
+                throw new Exception($"Missing BfApiKey in config.");
 
             if (string.IsNullOrEmpty(SecretKey))
-                throw new Exception("Missing BfApiSecret");
+                throw new Exception("Missing BfApiSecretin config.");
         }
-
+        
         [TestMethod]
-        public void TestMethod1()
+        public void TestMethod()
         {
+            // arrange
             var mockHttp = new MockHttpMessageHandler();
-            mockHttp.When("*v2/platform/status")
-                .Respond("application/json", "[1]"); // Respond with JSON
+            mockHttp.When($"*{Endpoints.Wallets}")
+                .Respond(MediaTypes.ApplicationJson, "[1]");
 
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
-            var platformStatus = bfClient.GetPlatformStatusAsync().Result;
-
-            Assert.AreEqual(platformStatus.Operative, 1);
-        }
-
-        [TestMethod]
-        public void TestMethod2()
-        {
+            // act
             var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient());
-
             var wallets = bfClient.GetWalletsAsync().Result;
 
+            // assert
             Assert.AreEqual(wallets.Count, 6);
         }
     }

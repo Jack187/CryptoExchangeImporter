@@ -15,6 +15,10 @@ namespace BitfinexApi
     public partial class BitfinexApiClient
     {
         private const string BaseUrl = "https://api.bitfinex.com/";
+        private const string BfxNonce = "bfx-nonce";
+        private const string BfxApiKey = "bfx-apikey";
+        private const string BfxSignature = "bfx-signature";
+
         private readonly HttpClient _httpClient;
 
         private readonly string ApiKey;
@@ -28,7 +32,8 @@ namespace BitfinexApi
             _httpClient = httpClient;
 
             _httpClient.BaseAddress = new Uri(BaseUrl);
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue(MediaTypes.ApplicationJson));
         }
 
         public async Task<PlatformStatus> GetPlatformStatusAsync()
@@ -92,10 +97,10 @@ namespace BitfinexApi
             string signatureString = string.Concat(k.Select(b => b.ToString("X2")).ToArray()).ToLower();
 
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, endPoint);
-            request.Headers.TryAddWithoutValidation("bfx-nonce", nonce.ToString());
-            request.Headers.TryAddWithoutValidation("bfx-apikey", ApiKey);
-            request.Headers.TryAddWithoutValidation("bfx-signature", signatureString);
-            request.Content = new StringContent(rawBody, Encoding.UTF8, "application/json");
+            request.Headers.TryAddWithoutValidation(BfxNonce, nonce.ToString());
+            request.Headers.TryAddWithoutValidation(BfxApiKey, ApiKey);
+            request.Headers.TryAddWithoutValidation(BfxSignature, signatureString);
+            request.Content = new StringContent(rawBody, Encoding.UTF8, MediaTypes.ApplicationJson);
 
             return request;
         }
