@@ -1,7 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using BitfinexApi.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
-using System;
-using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
@@ -11,27 +10,6 @@ namespace BitfinexApi.Test
     [TestClass]
     public class WalletsTests
     {
-        private static string ApiKey;
-        private static string SecretKey;
-
-        [ClassInitialize]
-        public static void Initialize(TestContext t)
-        {
-            var pathToConfig = AppDomain.CurrentDomain.BaseDirectory + "BitfinexApi.dll";
-            var config = ConfigurationManager.OpenExeConfiguration(pathToConfig);
-            var appSettings = config.AppSettings;
-            // Log config file not found - no auth access possible just public endpoints will work
-            ApiKey = appSettings.Settings["BfApiKey"].Value;
-            SecretKey = appSettings.Settings["BfApiSecret"].Value;
-            // log if values are isNullOrStringEmpty - just public endpoints
-
-            if (string.IsNullOrEmpty(ApiKey))
-                throw new Exception($"Missing BfApiKey in config.");
-
-            if (string.IsNullOrEmpty(SecretKey))
-                throw new Exception("Missing BfApiSecretin config.");
-        }
-
         [TestMethod]
         [DataRow("[]", 0)]
         [DataRow("[[\"exchange\",\"BTC\",0.0583,0,null]]", 1)]
@@ -49,7 +27,7 @@ namespace BitfinexApi.Test
                 .Respond(MediaTypes.ApplicationJson, responseJson);
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var wallets = bfClient.GetWalletsAsync().Result;
 
             // assert
@@ -75,7 +53,7 @@ namespace BitfinexApi.Test
                 .Respond(MediaTypes.ApplicationJson, responseJson);
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var wallets = bfClient.GetWalletsAsync().Result;
             var wallet = wallets.FirstOrDefault(w => w.Currency.Equals(currency));
 

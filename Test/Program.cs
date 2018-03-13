@@ -1,6 +1,6 @@
 ﻿using BitfinexApi;
+using BitfinexApi.Configuration;
 using System;
-using System.Configuration;
 using System.Net.Http;
 
 namespace Test
@@ -9,7 +9,7 @@ namespace Test
     {
         static void Main(string[] args)
         {            
-            BitfinexApiClient bfRestClient = new BitfinexApiClient("","", new HttpClient());
+            BitfinexApiClient bfRestClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient());
 
             var platformStatus = bfRestClient.GetPlatformStatusAsync().Result;
             Console.WriteLine($"API State (1=up / 0=down): {platformStatus.Operative}");
@@ -23,9 +23,6 @@ namespace Test
             wallets.ForEach(wallet => Console.WriteLine(wallet.ToString()));
 
             Console.ReadLine();
-            
-            // Test für die Exception
-            //Test PlatformStatusAsync
         }
     }
 }

@@ -18,9 +18,7 @@ namespace BitfinexApi.JsonConverters
             var array = JArray.Load(reader);
 
             var results = new List<Alert>();
-            if (array.Count == 0)
-                return null;
-
+            
             foreach (var item in array)
             {
                 var alert = JsonConvert.DeserializeObject<Alert>(item.ToString(), new AlertConverter());

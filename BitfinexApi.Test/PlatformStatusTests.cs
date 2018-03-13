@@ -1,8 +1,8 @@
+using BitfinexApi.Configuration;
 using BitfinexApi.Test.Mocking;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 using System;
-using System.Configuration;
 using System.Net.Http;
 
 namespace BitfinexApi.Test
@@ -10,28 +10,6 @@ namespace BitfinexApi.Test
     [TestClass]
     public class PlatformStatusTests
     {
-        private static string ApiKey;
-        private static string SecretKey;
-
-        [ClassInitialize]
-        public static void Initialize(TestContext t)
-        {
-            // TODO: find a proper way for handling configuration/settings later
-            var pathToConfig = AppDomain.CurrentDomain.BaseDirectory + "BitfinexApi.dll";
-            var config = ConfigurationManager.OpenExeConfiguration(pathToConfig);
-            var appSettings = config.AppSettings;
-            // Log config file not found - no auth access possible just public endpoints will work
-            ApiKey = appSettings.Settings["BfApiKey"].Value;
-            SecretKey = appSettings.Settings["BfApiSecret"].Value;
-            // log if values are isNullOrStringEmpty - just public endpoints
-
-            if (string.IsNullOrEmpty(ApiKey))
-                throw new Exception($"Missing BfApiKey in config.");
-
-            if (string.IsNullOrEmpty(SecretKey))
-                throw new Exception("Missing BfApiSecretin config.");
-        }
-
         [TestMethod]
         public void When_ApiReturnsPlatformWorking_OperativeEqualsOne()
         {            
@@ -41,7 +19,7 @@ namespace BitfinexApi.Test
                 .Respond(MediaTypes.ApplicationJson, "[1]");
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var platformStatus = bfClient.GetPlatformStatusAsync().Result;
 
             // assert
@@ -57,7 +35,7 @@ namespace BitfinexApi.Test
                 .Respond(MediaTypes.ApplicationJson, "[0]");
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var platformStatus = bfClient.GetPlatformStatusAsync().Result;
 
             // assert
@@ -73,7 +51,7 @@ namespace BitfinexApi.Test
                 .Respond(MediaTypes.ApplicationJson, "[]");
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var platformStatus = bfClient.GetPlatformStatusAsync().Result;
 
             // assert
@@ -91,7 +69,7 @@ namespace BitfinexApi.Test
                     new HttpRequestException("An error occured while sending the request.")));
 
             // act
-            var bfClient = new BitfinexApiClient(ApiKey, SecretKey, new HttpClient(mockHttp));
+            var bfClient = new BitfinexApiClient(Config.ApiKey, Config.SecretKey, new HttpClient(mockHttp));
             var platformStatus = bfClient.GetPlatformStatusAsync().Result;
         }
     }

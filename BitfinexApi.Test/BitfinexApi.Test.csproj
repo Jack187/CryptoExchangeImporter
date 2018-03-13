@@ -8,12 +8,6 @@
 
   <ItemGroup>
     <None Remove="BitfinexApi.dll.config.sample" />
-  </ItemGroup>  
-
-  <ItemGroup>
-    <Content Include="BitfinexApi.dll.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
